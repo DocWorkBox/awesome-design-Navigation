@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <title>Independent Scroll Probe</title>
+    <style>
+      html,
+      body {
+        margin: 0;
+      }
+
+      iframe {
+        width: 2048px;
+        height: 1100px;
+        border: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <pre id="result">running</pre>
+    <iframe id="app" src="../index.html?style=claude&demoTheme=light&demoSize=mobile"></iframe>
+    <script>
+      const frame = document.getElementById("app");
+      const result = document.getElementById("result");
+
+      function readPanel(panel) {
+        const styles = frame.contentWindow.getComputedStyle(panel);
+        return {
+          overflowY: styles.overflowY,
+          clientHeight: panel.clientHeight,
+          scrollHeight: panel.scrollHeight,
+          maxHeight: styles.maxHeight,
+          position: styles.position,
+        };
+      }
+
+      frame.addEventListener("load", () => {
+        const doc = frame.contentDocument;
+        const layout = doc.querySelector(".layout");
+        layout.scrollIntoView();
+        setTimeout(() => {
+          result.textContent = JSON.stringify(
+            {
+              gallery: readPanel(doc.querySelector(".gallery-panel")),
+              detail: readPanel(doc.querySelector(".detail-panel")),
+              windowHeight: frame.contentWindow.innerHeight,
+            },
+            null,
+            2
+          );
+        }, 800);
+      });
+    </script>
+  </body>
+</html>

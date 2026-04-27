@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <title>Layout Overflow Probe</title>
+    <style>
+      html,
+      body {
+        margin: 0;
+      }
+
+      iframe {
+        width: var(--probe-width, 2048px);
+        height: 1200px;
+        border: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <pre id="result">running</pre>
+    <iframe id="app"></iframe>
+    <script>
+      const frame = document.getElementById("app");
+      const result = document.getElementById("result");
+      const params = new URLSearchParams(window.location.search);
+      const width = Number.parseInt(params.get("width") || "2048", 10);
+      document.documentElement.style.setProperty("--probe-width", `${width}px`);
+      frame.src = "../index.html?style=claude&demoTheme=light&demoSize=desktop";
+
+      function readMetrics() {
+        const doc = frame.contentDocument;
+        const win = frame.contentWindow;
+        const layout = doc.querySelector(".layout");
+        const gallery = doc.querySelector(".gallery-panel");
+        const detail = doc.querySelector(".detail-panel");
+        const shell = doc.getElementById("demo-frame-shell");
+        const viewport = doc.getElementById("demo-viewport");
+        return {
+          innerWidth: win.innerWidth,
+          scrollWidth: doc.documentElement.scrollWidth,
+          bodyScrollWidth: doc.body.scrollWidth,
+          bodyClientWidth: doc.body.clientWidth,
+          layoutWidth: Math.round(layout.getBoundingClientRect().width),
+          galleryWidth: Math.round(gallery.getBoundingClientRect().width),
+          detailWidth: Math.round(detail.getBoundingClientRect().width),
+          shellWidth: Math.round(shell.getBoundingClientRect().width),
+          viewportWidth: viewport.style.width,
+          viewportTransform: viewport.style.transform,
+        };
+      }
+
+      frame.addEventListener("load", () => {
+        setTimeout(() => {
+          result.textContent = JSON.stringify(readMetrics(), null, 2);
+        }, 800);
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Awesome DESIGN.md 风格预览</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="site-shell">
+      <header class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow">设计系统画廊</p>
+          <h1>先看全量风格，再决定要哪一种。</h1>
+          <p class="hero-text">
+            这个本地预览页把 README 里的风格目录整理成可浏览的视觉画廊。
+            你可以先搜索、筛选、查看，再决定下一次页面生成要用哪一种风格。
+          </p>
+        </div>
+        <div class="hero-meta">
+          <div class="stat">
+            <span class="stat-value" id="style-count">68</span>
+            <span class="stat-label">风格数</span>
+          </div>
+          <div class="stat">
+            <span class="stat-value" id="category-count">9</span>
+            <span class="stat-label">分类数</span>
+          </div>
+          <div class="stat stat-selection">
+            <span class="stat-value" id="selected-name">Claude</span>
+            <span class="stat-label">当前选择</span>
+          </div>
+        </div>
+      </header>
+
+      <section class="selection-banner" id="selection-banner" aria-live="polite">
+        <div>
+          <p class="selection-label">当前将用于后续页面生成的风格</p>
+          <h2 id="banner-name">Claude</h2>
+          <p class="selection-subtitle" id="banner-summary">风格已选中，可直接继续下一次设计生成。</p>
+        </div>
+        <div class="selection-meta">
+          <span class="selection-chip" id="banner-category">AI 与大模型平台</span>
+          <code class="selection-key" id="banner-key">claude</code>
+        </div>
+      </section>
+
+      <main class="layout">
+        <section class="gallery-panel">
+          <div class="toolbar">
+            <label class="search">
+              <span class="search-label">搜索风格</span>
+              <input
+                id="search-input"
+                type="search"
+                placeholder="Vercel、编辑感、深色、金融科技……"
+                autocomplete="off"
+              />
+            </label>
+            <div class="toolbar-note" id="result-count"></div>
+          </div>
+
+          <div class="filters" id="category-filters" aria-label="分类筛选"></div>
+          <div class="gallery-grid" id="gallery-grid"></div>
+        </section>
+
+        <aside class="detail-panel" id="detail-panel">
+          <div class="detail-card">
+            <p class="detail-kicker" id="detail-category"></p>
+            <h2 id="detail-name"></h2>
+            <p class="detail-description" id="detail-description"></p>
+            <div class="detail-actions">
+              <button id="copy-choice" class="action action-secondary" type="button">复制风格键</button>
+            </div>
+            <p class="detail-choice" id="detail-choice"></p>
+            <p class="detail-usage" id="detail-usage">下一次你只要说“按这个风格做”，我就会以当前选中的风格继续。</p>
+          </div>
+
+          <div class="preview-stage" id="preview-stage">
+            <div class="live-demo-head">
+              <div>
+                <p class="live-demo-kicker">IAB 内联预览</p>
+                <h3 id="live-demo-title">Claude 实时 Demo</h3>
+              </div>
+              <div class="live-demo-actions">
+                <button class="demo-toggle is-active" type="button" data-demo-theme="light">浅色</button>
+                <button class="demo-toggle" type="button" data-demo-theme="dark">深色</button>
+                <button class="demo-toggle is-active" type="button" data-demo-size="desktop">桌面</button>
+                <button class="demo-toggle" type="button" data-demo-size="mobile">移动</button>
+                <button class="demo-action" id="demo-reload" type="button">重载</button>
+                <a class="demo-action demo-open" id="demo-open" target="_blank" rel="noreferrer">独立打开</a>
+              </div>
+            </div>
+            <div class="stage-window">
+              <div class="stage-bar">
+                <span></span><span></span><span></span>
+                <p id="demo-status">当前：浅色 / 桌面</p>
+              </div>
+              <div class="demo-frame-shell" id="demo-frame-shell">
+                <div class="demo-viewport" id="demo-viewport">
+                  <iframe
+                    id="demo-frame"
+                    class="demo-frame"
+                    title="风格实时预览"
+                    loading="eager"
+                    referrerpolicy="no-referrer"
+                  ></iframe>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="detail-notes">
+            <h3>后续怎么用</h3>
+            <p>
+              以后你提设计需求时，我可以先打开这个页面给你选风格。你在这里选中后，
+              我再按这个视觉语言继续做页面。
+            </p>
+          </div>
+        </aside>
+      </main>
+    </div>
+
+    <script src="./styles-data.js"></script>
+    <script src="./app.js"></script>
+  </body>
+</html>

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Awesome DESIGN Navigation"
+  short_description: "Choose DESIGN.md visual styles from a graphical preview gallery"
+  default_prompt: "Use $awesome-design-navigation to open the visual style gallery, let me pick a DESIGN.md style, then apply that style to the UI."

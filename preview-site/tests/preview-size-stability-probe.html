@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <title>Preview Size Stability Probe</title>
+    <style>
+      html,
+      body {
+        margin: 0;
+      }
+
+      iframe {
+        width: 1500px;
+        height: 1100px;
+        border: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <pre id="result">running</pre>
+    <iframe id="app" src="../index.html?style=claude&demoTheme=light&demoSize=desktop"></iframe>
+    <script>
+      const frame = document.getElementById("app");
+      const result = document.getElementById("result");
+      const slugs = ["claude", "cohere", "voltagent", "mistral.ai", "ollama", "claude"];
+
+      function readMetrics(doc, slug) {
+        const shell = doc.getElementById("demo-frame-shell");
+        const viewport = doc.getElementById("demo-viewport");
+        const demoFrame = doc.getElementById("demo-frame");
+        const shellRect = shell.getBoundingClientRect();
+        const viewportRect = viewport.getBoundingClientRect();
+        return {
+          slug,
+          shellWidth: Math.round(shellRect.width),
+          shellHeight: Math.round(shellRect.height),
+          shellStyleHeight: shell.style.height,
+          viewportWidth: Math.round(viewportRect.width),
+          viewportHeight: Math.round(viewportRect.height),
+          viewportStyleWidth: viewport.style.width,
+          viewportStyleHeight: viewport.style.height,
+          frameStyleWidth: demoFrame.style.width,
+          frameStyleHeight: demoFrame.style.height,
+          frameTransform: demoFrame.style.transform,
+          documentScrollWidth: doc.documentElement.scrollWidth,
+          documentClientWidth: doc.documentElement.clientWidth,
+        };
+      }
+
+      function clickSlug(doc, slug) {
+        const card = doc.querySelector(`[data-slug="${CSS.escape(slug)}"]`);
+        card.click();
+      }
+
+      frame.addEventListener("load", () => {
+        const doc = frame.contentDocument;
+        setTimeout(async () => {
+          const metrics = [];
+          for (const slug of slugs) {
+            clickSlug(doc, slug);
+            await new Promise((resolve) => setTimeout(resolve, 450));
+            metrics.push(readMetrics(doc, slug));
+          }
+          result.textContent = JSON.stringify({ metrics }, null, 2);
+        }, 800);
+      });
+    </script>
+  </body>
+</html>

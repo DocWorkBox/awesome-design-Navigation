@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <title>Mobile Overflow Probe</title>
+    <style>
+      html,
+      body {
+        margin: 0;
+      }
+
+      iframe {
+        width: 900px;
+        height: 1200px;
+        border: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <pre id="result">running</pre>
+    <iframe id="app"></iframe>
+    <script>
+      const frame = document.getElementById("app");
+      const result = document.getElementById("result");
+      const style = new URLSearchParams(window.location.search).get("style") || "cohere";
+      frame.src = `../index.html?style=${encodeURIComponent(style)}&demoTheme=light&demoSize=mobile`;
+
+      function readMetrics() {
+        const appDoc = frame.contentDocument;
+        const demoFrame = appDoc.getElementById("demo-frame");
+        const demoDoc = demoFrame.contentDocument;
+        const viewportWidth = demoFrame.contentWindow.innerWidth;
+        const horizontalScrollers = [...demoDoc.querySelectorAll("*")]
+          .filter((element) => element.scrollWidth > element.clientWidth + 1)
+          .map((element) => {
+            const styles = demoFrame.contentWindow.getComputedStyle(element);
+            return {
+              tag: element.tagName.toLowerCase(),
+              className: String(element.className || ""),
+              overflowX: styles.overflowX,
+              scrollWidth: element.scrollWidth,
+              clientWidth: element.clientWidth,
+            };
+          })
+          .filter((item) => item.overflowX !== "hidden" && item.overflowX !== "clip");
+        const clippedVisibleElements = [...demoDoc.querySelectorAll("body *")]
+          .map((element) => {
+            const styles = demoFrame.contentWindow.getComputedStyle(element);
+            const rect = element.getBoundingClientRect();
+            return {
+              tag: element.tagName.toLowerCase(),
+              className: String(element.className || ""),
+              text: String(element.textContent || "").trim().replace(/\s+/g, " ").slice(0, 80),
+              display: styles.display,
+              visibility: styles.visibility,
+              position: styles.position,
+              left: Math.round(rect.left),
+              right: Math.round(rect.right),
+              width: Math.round(rect.width),
+            };
+          })
+          .filter((item) =>
+            item.display !== "none" &&
+            item.visibility !== "hidden" &&
+            item.width > 8 &&
+            item.right > viewportWidth + 1
+          );
+        const staleSourceControls = [...demoDoc.querySelectorAll("a, button")]
+          .map((element) => {
+            const styles = demoFrame.contentWindow.getComputedStyle(element);
+            const rect = element.getBoundingClientRect();
+            return {
+              tag: element.tagName.toLowerCase(),
+              className: String(element.className || ""),
+              text: String(element.textContent || "").trim().replace(/\s+/g, " "),
+              display: styles.display,
+              visibility: styles.visibility,
+              width: Math.round(rect.width),
+              height: Math.round(rect.height),
+            };
+          })
+          .filter((item) =>
+            item.display !== "none" &&
+            item.visibility !== "hidden" &&
+            item.width > 0 &&
+            item.height > 0 &&
+            /view source|source|原始|来源/i.test(item.text)
+          );
+        const navControls = [...demoDoc.querySelectorAll("nav a, nav button, header a, header button, .nav a, .nav button")]
+          .map((element) => {
+            const styles = demoFrame.contentWindow.getComputedStyle(element);
+            const rect = element.getBoundingClientRect();
+            return {
+              tag: element.tagName.toLowerCase(),
+              className: String(element.className || ""),
+              text: String(element.textContent || "").trim().replace(/\s+/g, " "),
+              display: styles.display,
+              visibility: styles.visibility,
+              left: Math.round(rect.left),
+              right: Math.round(rect.right),
+              width: Math.round(rect.width),
+              height: Math.round(rect.height),
+            };
+          })
+          .filter((item) =>
+            item.display !== "none" &&
+            item.visibility !== "hidden" &&
+            item.width > 0 &&
+            item.height > 0
+          );
+        const overflowingNavControls = navControls.filter((item) => item.right > viewportWidth - 8 || item.left < 8);
+        const visibleGithubNavControls = navControls.filter((item) => /github|awesome-design-md/i.test(`${item.className} ${item.text}`));
+        const frameWidthNumber = Number.parseFloat(demoFrame.style.width);
+        const frameHeightNumber = Number.parseFloat(demoFrame.style.height);
+        return {
+          appScrollWidth: appDoc.documentElement.scrollWidth,
+          appClientWidth: appDoc.documentElement.clientWidth,
+          demoScrollWidth: demoDoc.documentElement.scrollWidth,
+          demoClientWidth: demoDoc.documentElement.clientWidth,
+          demoBodyScrollWidth: demoDoc.body.scrollWidth,
+          demoBodyClientWidth: demoDoc.body.clientWidth,
+          horizontalScrollerCount: horizontalScrollers.length,
+          horizontalScrollers: horizontalScrollers.slice(0, 8),
+          clippedVisibleElementCount: clippedVisibleElements.length,
+          clippedVisibleElements: clippedVisibleElements.slice(0, 8),
+          staleSourceControlCount: staleSourceControls.length,
+          staleSourceControls: staleSourceControls.slice(0, 8),
+          overflowingNavControlCount: overflowingNavControls.length,
+          overflowingNavControls: overflowingNavControls.slice(0, 8),
+          visibleGithubNavControlCount: visibleGithubNavControls.length,
+          visibleGithubNavControls: visibleGithubNavControls.slice(0, 8),
+          frameAspect: frameHeightNumber / frameWidthNumber,
+          frameWidthNumber,
+          frameHeightNumber,
+          viewportWidth: appDoc.getElementById("demo-viewport").style.width,
+          frameWidth: demoFrame.style.width,
+          frameHeight: demoFrame.style.height,
+        };
+      }
+
+      frame.addEventListener("load", () => {
+        setTimeout(() => {
+          result.textContent = JSON.stringify(readMetrics(), null, 2);
+        }, 1000);
+      });
+    </script>
+  </body>
+</html>

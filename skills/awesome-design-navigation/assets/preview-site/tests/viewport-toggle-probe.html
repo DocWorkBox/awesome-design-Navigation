@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <title>Viewport Toggle Probe</title>
+    <style>
+      body {
+        font-family: sans-serif;
+        margin: 24px;
+      }
+
+      iframe {
+        width: 1400px;
+        height: 1200px;
+        border: 1px solid #ccc;
+      }
+
+      pre {
+        white-space: pre-wrap;
+        background: #111827;
+        color: #e5e7eb;
+        padding: 16px;
+        border-radius: 12px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Viewport Toggle Probe</h1>
+    <pre id="result">running...</pre>
+    <iframe id="app" src="/index.html?style=cohere&demoTheme=light&demoSize=mobile"></iframe>
+    <script>
+      const frame = document.getElementById("app");
+      const result = document.getElementById("result");
+
+      function readMetrics(doc, label) {
+        const shell = doc.getElementById("demo-frame-shell");
+        const viewport = doc.getElementById("demo-viewport");
+        const status = doc.getElementById("demo-status");
+        return {
+          label,
+          status: status?.textContent?.trim() || "",
+          shellClass: shell?.className || "",
+          shellHeight: shell?.style?.height || "",
+          viewportWidth: viewport?.style?.width || "",
+          viewportHeight: viewport?.style?.height || "",
+          viewportTransform: viewport?.style?.transform || "",
+        };
+      }
+
+      frame.addEventListener("load", () => {
+        const doc = frame.contentWindow.document;
+        setTimeout(() => {
+          const mobileMetrics = readMetrics(doc, "mobile");
+          doc.querySelector('[data-demo-size="desktop"]').click();
+          setTimeout(() => {
+            const desktopMetrics = readMetrics(doc, "desktop-after-mobile");
+            result.textContent = JSON.stringify({ mobileMetrics, desktopMetrics }, null, 2);
+          }, 600);
+        }, 600);
+      });
+    </script>
+  </body>
+</html>

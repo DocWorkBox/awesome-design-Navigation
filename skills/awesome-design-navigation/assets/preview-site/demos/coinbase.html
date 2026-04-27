@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Coinbase 风格 Demo</title>
+    <style>
+      :root {
+        color-scheme: dark;
+        --bg: #08101a;
+        --panel: #0f1726;
+        --panel-2: #121d30;
+        --text: #f5f7fb;
+        --muted: #99a4b5;
+        --line: rgba(255,255,255,0.08);
+        --accent: #78e6c4;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        font-family: "Segoe UI","PingFang SC","Noto Sans SC",sans-serif;
+        background:
+          radial-gradient(circle at top left, rgba(120,230,196,0.12), transparent 25%),
+          linear-gradient(180deg, #09111c 0%, #050910 100%);
+        color: var(--text);
+      }
+      .shell {
+        max-width: 1600px;
+        margin: 0 auto;
+        padding: 24px;
+      }
+      .topbar {
+        display: flex;
+        justify-content: space-between;
+        gap: 16px;
+        align-items: flex-start;
+        margin-bottom: 20px;
+      }
+      .back-link {
+        color: var(--text);
+        text-decoration: none;
+        border: 1px solid var(--line);
+        padding: 10px 14px;
+        border-radius: 12px;
+        background: rgba(255,255,255,0.04);
+      }
+      h1 { margin: 0 0 10px; font-size: 2.2rem; letter-spacing: -0.04em; }
+      p { margin: 0; line-height: 1.7; color: var(--muted); }
+      .meta { display: flex; flex-wrap: wrap; gap: 10px; margin: 14px 0 0; }
+      .pill {
+        display: inline-flex; align-items: center;
+        border: 1px solid var(--line); border-radius: 999px;
+        padding: 8px 12px; background: rgba(255,255,255,0.04);
+        color: var(--text);
+      }
+      .layout {
+        display: grid;
+        grid-template-columns: 320px minmax(0, 1fr);
+        gap: 20px;
+      }
+      .panel {
+        background: rgba(10,16,26,0.86);
+        border: 1px solid var(--line);
+        border-radius: 22px;
+        padding: 18px;
+      }
+      .controls h2, .preview-wrap h2 {
+        margin: 0 0 14px;
+        font-size: 1rem;
+      }
+      .control-group { margin-bottom: 16px; }
+      .control-group p { margin-bottom: 10px; font-size: 0.92rem; }
+      .segmented {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
+      }
+      button {
+        appearance: none;
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        background: rgba(255,255,255,0.04);
+        color: var(--text);
+        padding: 12px;
+        cursor: pointer;
+      }
+      button.is-active {
+        background: linear-gradient(135deg, rgba(120,230,196,0.2), rgba(138,92,246,0.22));
+        border-color: rgba(120,230,196,0.35);
+      }
+      .preview-shell {
+        width: 100%;
+        margin: 0 auto;
+        transition: width 180ms ease;
+      }
+      .preview-shell.is-mobile { width: 420px; max-width: 100%; }
+      .frame-box {
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        overflow: hidden;
+        background: #fff;
+        min-height: 860px;
+      }
+      .preview-frame {
+        width: 100%;
+        height: 860px;
+        border: 0;
+        background: white;
+      }
+      .hint {
+        margin-top: 12px;
+        font-size: 0.92rem;
+        color: var(--muted);
+      }
+      @media (max-width: 1100px) {
+        .layout { grid-template-columns: 1fr; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="shell">
+      <div class="topbar">
+        <a class="back-link" href="../index.html?style=coinbase">返回总览</a>
+      </div>
+      <section class="panel" style="margin-bottom:20px;">
+        <h1>Coinbase</h1>
+        <p>加密货币交易所。干净蓝色识别，强调信任与机构感。</p>
+        <div class="meta">
+          <span class="pill">金融科技与加密</span>
+          <span class="pill">coinbase</span>
+          <span class="pill">真实交互预览</span>
+        </div>
+      </section>
+      <div class="layout">
+        <aside class="panel controls">
+          <h2>预览控制</h2>
+          <div class="control-group">
+            <p>主题</p>
+            <div class="segmented">
+              <button class="theme-btn is-active" data-theme="light">浅色</button>
+              <button class="theme-btn" data-theme="dark">深色</button>
+            </div>
+          </div>
+          <div class="control-group">
+            <p>设备宽度</p>
+            <div class="segmented">
+              <button class="viewport-btn is-active" data-size="desktop">桌面</button>
+              <button class="viewport-btn" data-size="mobile">移动</button>
+            </div>
+          </div>
+          <div class="control-group">
+            <p>操作</p>
+            <div class="segmented">
+              <button id="reload-btn">重新加载</button>
+              <button id="open-remote-btn">新窗口打开</button>
+            </div>
+          </div>
+          <p class="hint">这个页面包的是 getdesign 的真实预览，不是示意图。你可以直接滚动、点击并切换查看。</p>
+        </aside>
+        <main class="panel preview-wrap">
+          <h2>实时 Demo</h2>
+          <div class="preview-shell" id="preview-shell">
+            <div class="frame-box">
+              <iframe
+                id="preview-frame"
+                class="preview-frame"
+                title="Coinbase 风格预览"
+                src="../mirrors/coinbase-light.html"
+                loading="eager"
+                referrerpolicy="no-referrer"
+              ></iframe>
+            </div>
+          </div>
+          <p class="hint" id="preview-status">当前：浅色 / 桌面</p>
+        </main>
+      </div>
+    </div>
+    <script>
+      const sources = {
+        light: "../mirrors/coinbase-light.html",
+        dark: "../mirrors/coinbase-dark.html"
+      };
+      const frame = document.getElementById("preview-frame");
+      const shell = document.getElementById("preview-shell");
+      const status = document.getElementById("preview-status");
+      const state = { theme: "light", size: "desktop" };
+
+      function render() {
+        frame.src = sources[state.theme];
+        shell.classList.toggle("is-mobile", state.size === "mobile");
+        status.textContent = `当前：${state.theme === "light" ? "浅色" : "深色"} / ${state.size === "desktop" ? "桌面" : "移动"}`;
+        document.querySelectorAll(".theme-btn").forEach((button) => {
+          button.classList.toggle("is-active", button.dataset.theme === state.theme);
+        });
+        document.querySelectorAll(".viewport-btn").forEach((button) => {
+          button.classList.toggle("is-active", button.dataset.size === state.size);
+        });
+      }
+
+      document.querySelectorAll(".theme-btn").forEach((button) => {
+        button.addEventListener("click", () => {
+          state.theme = button.dataset.theme;
+          render();
+        });
+      });
+      document.querySelectorAll(".viewport-btn").forEach((button) => {
+        button.addEventListener("click", () => {
+          state.size = button.dataset.size;
+          render();
+        });
+      });
+      document.getElementById("reload-btn").addEventListener("click", () => {
+        frame.src = frame.src;
+      });
+      document.getElementById("open-remote-btn").addEventListener("click", () => {
+        window.open(sources[state.theme], "_blank", "noopener,noreferrer");
+      });
+      render();
+    </script>
+  </body>
+</html>

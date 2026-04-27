@@ -1,0 +1,907 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Awesome DESIGN.md Navigation Skill | NVIDIA Style</title>
+  <style>
+    :root {
+      --nvidia-green: #76b900;
+      --nvidia-green-light: #bff230;
+      --black: #000000;
+      --white: #ffffff;
+      --near-black: #1a1a1a;
+      --gray-300: #a7a7a7;
+      --gray-400: #898989;
+      --gray-500: #757575;
+      --gray-border: #5e5e5e;
+      --link-hover: #3860be;
+      --btn-hover: #1eaedb;
+      --btn-active: #007fff;
+      --orange-400: #df6500;
+      --red-500: #e52020;
+      --green-500: #3f8500;
+      --blue-700: #0046a4;
+      --shadow-card: rgba(0, 0, 0, 0.3) 0 0 5px 0;
+      --font-primary: Inter, Arial, Helvetica, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      background: var(--black);
+      color: var(--white);
+      scroll-behavior: smooth;
+    }
+
+    body {
+      min-width: 0;
+      margin: 0;
+      overflow-x: hidden;
+      font-family: var(--font-primary);
+      font-size: 16px;
+      line-height: 1.5;
+      background:
+        radial-gradient(circle at 82% 14%, rgba(118, 185, 0, 0.22), transparent 30%),
+        radial-gradient(circle at 16% 52%, rgba(30, 174, 219, 0.16), transparent 26%),
+        linear-gradient(180deg, #000 0%, #101010 42%, #050505 100%);
+      color: var(--white);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      gap: 24px;
+      padding: 14px 32px;
+      background: rgba(0, 0, 0, 0.88);
+      border-bottom: 2px solid var(--nvidia-green);
+      backdrop-filter: blur(16px);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: var(--white);
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 0.7px;
+      text-decoration: none;
+      text-transform: uppercase;
+    }
+
+    .brand-mark {
+      width: 22px;
+      height: 22px;
+      background:
+        linear-gradient(90deg, var(--nvidia-green), var(--nvidia-green-light));
+      clip-path: polygon(0 0, 100% 0, 72% 100%, 0 100%);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      justify-content: center;
+    }
+
+    .nav-links a {
+      color: var(--gray-300);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      text-decoration: none;
+      text-transform: uppercase;
+      transition: color 160ms ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--nvidia-green);
+    }
+
+    .nav-cta {
+      justify-self: end;
+      border: 2px solid var(--nvidia-green);
+      border-radius: 2px;
+      padding: 9px 16px;
+      color: var(--white);
+      font-size: 14px;
+      font-weight: 700;
+      text-decoration: none;
+      transition: background 160ms ease, border-color 160ms ease;
+    }
+
+    .nav-cta:hover {
+      background: var(--btn-hover);
+      border-color: var(--btn-hover);
+    }
+
+    .hero {
+      position: relative;
+      display: grid;
+      grid-template-columns: minmax(0, 1.08fr) minmax(320px, 0.92fr);
+      gap: 48px;
+      align-items: center;
+      max-width: 1240px;
+      min-height: calc(100vh - 66px);
+      margin: 0 auto;
+      padding: 88px 32px 72px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 18px;
+      color: var(--nvidia-green-light);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .eyebrow::before {
+      width: 38px;
+      height: 2px;
+      background: var(--nvidia-green);
+      content: "";
+    }
+
+    h1 {
+      max-width: 780px;
+      margin: 0 0 22px;
+      font-size: clamp(44px, 7vw, 92px);
+      font-weight: 700;
+      line-height: 0.94;
+      letter-spacing: -4px;
+    }
+
+    h1 span {
+      color: var(--nvidia-green);
+    }
+
+    .hero-copy {
+      max-width: 680px;
+      margin: 0 0 34px;
+      color: var(--gray-300);
+      font-size: clamp(18px, 2vw, 24px);
+      line-height: 1.58;
+    }
+
+    .button-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 48px;
+      border-radius: 2px;
+      padding: 12px 20px;
+      font-size: 16px;
+      font-weight: 700;
+      text-decoration: none;
+      cursor: pointer;
+      transition: transform 160ms ease, background 160ms ease, border-color 160ms ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+    }
+
+    .btn-primary {
+      border: 2px solid var(--nvidia-green);
+      background: transparent;
+      color: var(--white);
+    }
+
+    .btn-primary:hover {
+      border-color: var(--btn-hover);
+      background: var(--btn-hover);
+    }
+
+    .btn-secondary {
+      border: 1px solid var(--gray-border);
+      background: transparent;
+      color: var(--gray-300);
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--gray-300);
+      color: var(--white);
+    }
+
+    .console {
+      position: relative;
+      overflow: hidden;
+      border: 1px solid var(--gray-border);
+      border-top: 2px solid var(--nvidia-green);
+      border-radius: 2px;
+      background: rgba(26, 26, 26, 0.92);
+      box-shadow: var(--shadow-card);
+    }
+
+    .console::before {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background:
+        linear-gradient(rgba(118, 185, 0, 0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(118, 185, 0, 0.05) 1px, transparent 1px);
+      background-size: 22px 22px;
+      content: "";
+      mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.9), transparent);
+    }
+
+    .console-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 18px 20px;
+      border-bottom: 1px solid var(--gray-border);
+      background: #000;
+    }
+
+    .console-title {
+      color: var(--white);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.6px;
+      text-transform: uppercase;
+    }
+
+    .status {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--gray-300);
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .status::before {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--nvidia-green);
+      box-shadow: 0 0 14px var(--nvidia-green);
+      content: "";
+    }
+
+    .console-body {
+      position: relative;
+      padding: 26px 22px 24px;
+    }
+
+    .metric-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      margin-bottom: 22px;
+    }
+
+    .metric {
+      border: 1px solid rgba(118, 185, 0, 0.36);
+      border-radius: 2px;
+      padding: 16px;
+      background: rgba(0, 0, 0, 0.36);
+    }
+
+    .metric-value {
+      color: var(--white);
+      font-size: 32px;
+      font-weight: 700;
+      line-height: 1;
+    }
+
+    .metric-label {
+      margin-top: 7px;
+      color: var(--gray-400);
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .route-card {
+      border: 1px solid rgba(94, 94, 94, 0.8);
+      border-radius: 2px;
+      padding: 18px;
+      background: rgba(0, 0, 0, 0.42);
+    }
+
+    .route-line {
+      display: grid;
+      grid-template-columns: 92px minmax(0, 1fr);
+      gap: 12px;
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(94, 94, 94, 0.5);
+      color: var(--gray-300);
+      font-size: 14px;
+    }
+
+    .route-line:last-child {
+      border-bottom: 0;
+    }
+
+    .route-line strong {
+      color: var(--nvidia-green);
+      font-size: 12px;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    .section {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 70px 32px;
+    }
+
+    .section-label {
+      margin-bottom: 8px;
+      color: var(--nvidia-green);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.6px;
+      text-transform: uppercase;
+    }
+
+    .section-title {
+      max-width: 760px;
+      margin: 0 0 30px;
+      color: var(--white);
+      font-size: clamp(30px, 4vw, 52px);
+      font-weight: 700;
+      line-height: 1.08;
+      letter-spacing: -1.8px;
+    }
+
+    .section-title span {
+      color: var(--nvidia-green);
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 20px;
+    }
+
+    .card {
+      min-height: 270px;
+      border: 1px solid var(--gray-border);
+      border-top: 2px solid var(--nvidia-green);
+      border-radius: 2px;
+      padding: 26px;
+      background: var(--white);
+      color: var(--black);
+      box-shadow: var(--shadow-card);
+    }
+
+    .card.badge-ai {
+      border-top-color: var(--blue-700);
+    }
+
+    .card.badge-data {
+      border-top-color: var(--orange-400);
+    }
+
+    .card-badge {
+      display: inline-flex;
+      margin-bottom: 18px;
+      border-radius: 2px;
+      padding: 3px 9px;
+      background: var(--nvidia-green);
+      color: var(--black);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    .card.badge-ai .card-badge {
+      background: var(--blue-700);
+      color: var(--white);
+    }
+
+    .card.badge-data .card-badge {
+      background: var(--orange-400);
+      color: var(--white);
+    }
+
+    .card h3 {
+      margin: 0 0 12px;
+      font-size: 22px;
+      line-height: 1.2;
+    }
+
+    .card p {
+      margin: 0;
+      color: var(--gray-500);
+      font-size: 15px;
+      line-height: 1.67;
+    }
+
+    .workflow {
+      display: grid;
+      grid-template-columns: 300px minmax(0, 1fr);
+      gap: 22px;
+      align-items: start;
+    }
+
+    .step-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .step-button {
+      width: 100%;
+      border: 1px solid var(--gray-border);
+      border-radius: 2px;
+      padding: 16px;
+      background: rgba(26, 26, 26, 0.9);
+      color: var(--gray-300);
+      font: inherit;
+      font-weight: 700;
+      text-align: left;
+      cursor: pointer;
+      transition: border-color 160ms ease, color 160ms ease, background 160ms ease;
+    }
+
+    .step-button.is-active,
+    .step-button:hover {
+      border-color: var(--nvidia-green);
+      background: #000;
+      color: var(--white);
+    }
+
+    .step-panel {
+      min-height: 328px;
+      border: 1px solid var(--gray-border);
+      border-top: 2px solid var(--nvidia-green);
+      border-radius: 2px;
+      padding: 30px;
+      background: rgba(0, 0, 0, 0.68);
+    }
+
+    .panel-kicker {
+      color: var(--nvidia-green);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.6px;
+      text-transform: uppercase;
+    }
+
+    .step-panel h3 {
+      margin: 10px 0 14px;
+      font-size: 32px;
+      line-height: 1.15;
+    }
+
+    .step-panel p {
+      max-width: 720px;
+      margin: 0 0 22px;
+      color: var(--gray-300);
+      font-size: 17px;
+      line-height: 1.7;
+    }
+
+    .code-box {
+      position: relative;
+      overflow: auto;
+      border: 1px solid var(--gray-border);
+      border-radius: 2px;
+      background: #000;
+    }
+
+    pre {
+      margin: 0;
+      padding: 18px 52px 18px 18px;
+      color: var(--nvidia-green-light);
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+      font-size: 13px;
+      line-height: 1.6;
+      white-space: pre-wrap;
+    }
+
+    .copy-button {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      border: 1px solid var(--nvidia-green);
+      border-radius: 2px;
+      padding: 7px 9px;
+      background: transparent;
+      color: var(--white);
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .source-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 20px;
+    }
+
+    .source-card {
+      border: 1px solid var(--gray-border);
+      border-radius: 2px;
+      padding: 24px;
+      background: rgba(26, 26, 26, 0.88);
+    }
+
+    .source-card h3 {
+      margin: 0 0 10px;
+      font-size: 22px;
+    }
+
+    .source-card p {
+      margin: 0 0 16px;
+      color: var(--gray-300);
+    }
+
+    .path {
+      display: block;
+      overflow-wrap: anywhere;
+      border-left: 2px solid var(--nvidia-green);
+      padding: 10px 12px;
+      background: #000;
+      color: var(--nvidia-green-light);
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+      font-size: 13px;
+    }
+
+    .tokens {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .token {
+      overflow: hidden;
+      border: 1px solid var(--gray-border);
+      border-radius: 2px;
+      background: var(--white);
+      box-shadow: var(--shadow-card);
+    }
+
+    .token-swatch {
+      height: 78px;
+    }
+
+    .token-body {
+      padding: 12px;
+      color: var(--black);
+    }
+
+    .token-body strong {
+      display: block;
+      margin-bottom: 2px;
+      font-size: 13px;
+    }
+
+    .token-body span {
+      color: var(--gray-500);
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+      font-size: 12px;
+    }
+
+    .footer {
+      border-top: 2px solid var(--nvidia-green);
+      padding: 32px;
+      background: #000;
+      color: var(--gray-400);
+      text-align: center;
+    }
+
+    @media (max-width: 980px) {
+      .nav {
+        grid-template-columns: 1fr auto;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      .hero,
+      .workflow {
+        grid-template-columns: 1fr;
+      }
+
+      .cards,
+      .source-grid,
+      .tokens {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 640px) {
+      .nav {
+        padding: 12px 18px;
+      }
+
+      .nav-cta {
+        display: none;
+      }
+
+      .hero,
+      .section {
+        padding-right: 20px;
+        padding-left: 20px;
+      }
+
+      h1 {
+        letter-spacing: -2px;
+      }
+
+      .cards,
+      .source-grid,
+      .tokens,
+      .metric-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .step-panel {
+        padding: 22px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav" aria-label="页面导航">
+    <a class="brand" href="#">
+      <span class="brand-mark" aria-hidden="true"></span>
+      Awesome DESIGN.md Skill
+    </a>
+    <div class="nav-links">
+      <a href="#workflow">Workflow</a>
+      <a href="#sources">Sources</a>
+      <a href="#tokens">Tokens</a>
+    </div>
+    <a class="nav-cta" href="../index.html?style=nvidia&demoTheme=light&demoSize=desktop">打开风格导航</a>
+  </nav>
+
+  <main>
+    <section class="hero">
+      <div>
+        <div class="eyebrow">NVIDIA Style Test / Local Only</div>
+        <h1>把视觉风格选择变成<span>可执行流程</span></h1>
+        <p class="hero-copy">
+          这是一个用本仓库本地文件生成的技能说明页。页面遵循 NVIDIA 风格：黑色技术画布、绿色高能强调、低圆角组件、工程化信息密度。
+        </p>
+        <div class="button-row">
+          <a class="btn btn-primary" href="#workflow">查看技能流程</a>
+          <a class="btn btn-secondary" href="#sources">检查本地来源</a>
+        </div>
+      </div>
+
+      <aside class="console" aria-label="技能状态面板">
+        <div class="console-head">
+          <div class="console-title">Skill Runtime</div>
+          <div class="status">Local Source</div>
+        </div>
+        <div class="console-body">
+          <div class="metric-grid">
+            <div class="metric">
+              <div class="metric-value">69</div>
+              <div class="metric-label">Preview Styles</div>
+            </div>
+            <div class="metric">
+              <div class="metric-value">70</div>
+              <div class="metric-label">Local README Specs</div>
+            </div>
+            <div class="metric">
+              <div class="metric-value">0</div>
+              <div class="metric-label">Remote Dependency</div>
+            </div>
+            <div class="metric">
+              <div class="metric-value">NVIDIA</div>
+              <div class="metric-label">Active Style</div>
+            </div>
+          </div>
+          <div class="route-card">
+            <div class="route-line"><strong>Skill</strong><span>skills/awesome-design-navigation/SKILL.md</span></div>
+            <div class="route-line"><strong>Spec</strong><span>design-md/nvidia/README.md</span></div>
+            <div class="route-line"><strong>Mirror</strong><span>preview-site/mirrors/nvidia-light.html</span></div>
+            <div class="route-line"><strong>Output</strong><span>preview-site/examples/nvidia-skill-guide.html</span></div>
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <section class="section" id="workflow">
+      <div class="section-label">01 / Workflow</div>
+      <h2 class="section-title">这个技能如何把风格选择接到真实开发</h2>
+      <div class="workflow">
+        <div class="step-list" role="tablist" aria-label="技能流程">
+          <button class="step-button is-active" type="button" data-step="0">1. 打开本地风格导航</button>
+          <button class="step-button" type="button" data-step="1">2. 选择视觉风格</button>
+          <button class="step-button" type="button" data-step="2">3. 读取本地规范</button>
+          <button class="step-button" type="button" data-step="3">4. 应用到页面生成</button>
+        </div>
+        <div class="step-panel">
+          <div class="panel-kicker" id="step-kicker">Step 01</div>
+          <h3 id="step-title">先打开可视化总览</h3>
+          <p id="step-copy">
+            技能先启动本地预览站点，让用户在中文总览页里搜索、筛选、查看实时 Demo，再决定使用哪一种 DESIGN.md 风格。
+          </p>
+          <div class="code-box">
+            <pre id="step-code">python3 -m http.server 8877 --directory skills/awesome-design-navigation/assets/preview-site</pre>
+            <button class="copy-button" type="button" data-copy="#step-code">复制</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-label">02 / Capability Cards</div>
+      <h2 class="section-title">技能说明页的信息架构</h2>
+      <div class="cards">
+        <article class="card">
+          <span class="card-badge">GPU</span>
+          <h3>本地风格导航</h3>
+          <p>提供 69 个风格的缩略图、分类筛选和实时预览。用户先看真实视觉效果，再选择风格键。</p>
+        </article>
+        <article class="card badge-ai">
+          <span class="card-badge">AI</span>
+          <h3>规范读取链路</h3>
+          <p>优先读取 `design-md/&lt;style&gt;/README.md`，需要细节时再读取本地 mirror HTML，不依赖外部站点。</p>
+        </article>
+        <article class="card badge-data">
+          <span class="card-badge">DATA CENTER</span>
+          <h3>生成页面落地</h3>
+          <p>把风格翻译成可执行的颜色、字体、按钮、卡片、表单、间距、圆角和交互动效。</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="sources">
+      <div class="section-label">03 / Local Source Resolution</div>
+      <h2 class="section-title">只使用本地文件，不依赖 <span>getdesign.md</span></h2>
+      <div class="source-grid">
+        <article class="source-card">
+          <h3>技能指令</h3>
+          <p>定义何时打开画廊、如何读取 URL 中的 style，以及后续如何应用选中的视觉方向。</p>
+          <code class="path">skills/awesome-design-navigation/SKILL.md</code>
+        </article>
+        <article class="source-card">
+          <h3>NVIDIA 规范</h3>
+          <p>本页面的颜色、卡片、按钮、间距和圆角全部来自这个本地 Markdown 规范。</p>
+          <code class="path">design-md/nvidia/README.md</code>
+        </article>
+        <article class="source-card">
+          <h3>本地实时 Demo</h3>
+          <p>需要精确视觉对照时，读取本地 mirror HTML，而不是加载远端 iframe。</p>
+          <code class="path">preview-site/mirrors/nvidia-light.html</code>
+        </article>
+        <article class="source-card">
+          <h3>打包后的 Skill 资产</h3>
+          <p>单独安装 skill 时，也能从 assets 目录读取同一份本地规范。</p>
+          <code class="path">skills/awesome-design-navigation/assets/design-md/nvidia/README.md</code>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="tokens">
+      <div class="section-label">04 / NVIDIA Tokens</div>
+      <h2 class="section-title">用于这个页面的核心设计 token</h2>
+      <div class="tokens" aria-label="NVIDIA 色板">
+        <div class="token">
+          <div class="token-swatch" style="background:#76b900"></div>
+          <div class="token-body"><strong>NVIDIA Green</strong><span>#76b900</span></div>
+        </div>
+        <div class="token">
+          <div class="token-swatch" style="background:#000000"></div>
+          <div class="token-body"><strong>True Black</strong><span>#000000</span></div>
+        </div>
+        <div class="token">
+          <div class="token-swatch" style="background:#1a1a1a"></div>
+          <div class="token-body"><strong>Near Black</strong><span>#1a1a1a</span></div>
+        </div>
+        <div class="token">
+          <div class="token-swatch" style="background:#bff230"></div>
+          <div class="token-body"><strong>Green Light</strong><span>#bff230</span></div>
+        </div>
+        <div class="token">
+          <div class="token-swatch" style="background:#5e5e5e"></div>
+          <div class="token-body"><strong>Gray Border</strong><span>#5e5e5e</span></div>
+        </div>
+        <div class="token">
+          <div class="token-swatch" style="background:#1eaedb"></div>
+          <div class="token-body"><strong>Button Hover</strong><span>#1eaedb</span></div>
+        </div>
+        <div class="token">
+          <div class="token-swatch" style="background:#df6500"></div>
+          <div class="token-body"><strong>Orange 400</strong><span>#df6500</span></div>
+        </div>
+        <div class="token">
+          <div class="token-swatch" style="background:#0046a4"></div>
+          <div class="token-body"><strong>Blue 700</strong><span>#0046a4</span></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    基于本地 awesome-design-navigation skill 和本地 NVIDIA DESIGN.md 规范生成。Remote dependency: 0.
+  </footer>
+
+  <script>
+    const steps = [
+      {
+        kicker: "Step 01",
+        title: "先打开可视化总览",
+        copy: "技能先启动本地预览站点，让用户在中文总览页里搜索、筛选、查看实时 Demo，再决定使用哪一种 DESIGN.md 风格。",
+        code: "python3 -m http.server 8877 --directory skills/awesome-design-navigation/assets/preview-site"
+      },
+      {
+        kicker: "Step 02",
+        title: "用户选择一个风格键",
+        copy: "预览页会把选择写进 URL 查询参数，例如 `?style=nvidia`。之后的设计任务就以这个风格键为准。",
+        code: "http://127.0.0.1:8877/index.html?style=nvidia&demoTheme=light&demoSize=desktop"
+      },
+      {
+        kicker: "Step 03",
+        title: "读取本地 Markdown 规范",
+        copy: "技能优先读取 `design-md/<style>/README.md`。如果安装在 skill 目录外，则读取 `assets/design-md/<style>/README.md`。",
+        code: "design-md/nvidia/README.md\nskills/awesome-design-navigation/assets/design-md/nvidia/README.md"
+      },
+      {
+        kicker: "Step 04",
+        title: "把风格翻译成页面",
+        copy: "实现时保留目标项目架构，只迁移视觉语言：颜色、字体层级、按钮、卡片、间距、圆角、阴影和交互密度。",
+        code: "Use NVIDIA tokens: #76b900, #000000, #1a1a1a, 2px radius, high-contrast technical layout"
+      }
+    ];
+
+    const stepButtons = document.querySelectorAll(".step-button");
+    const kicker = document.getElementById("step-kicker");
+    const title = document.getElementById("step-title");
+    const copy = document.getElementById("step-copy");
+    const code = document.getElementById("step-code");
+
+    stepButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        const index = Number(button.dataset.step);
+        const step = steps[index];
+        stepButtons.forEach((item) => item.classList.remove("is-active"));
+        button.classList.add("is-active");
+        kicker.textContent = step.kicker;
+        title.textContent = step.title;
+        copy.textContent = step.copy;
+        code.textContent = step.code;
+      });
+    });
+
+    document.querySelectorAll("[data-copy]").forEach((button) => {
+      button.addEventListener("click", async () => {
+        const target = document.querySelector(button.dataset.copy);
+        const text = target ? target.textContent.trim() : "";
+        try {
+          await navigator.clipboard.writeText(text);
+          button.textContent = "已复制";
+          setTimeout(() => {
+            button.textContent = "复制";
+          }, 1200);
+        } catch {
+          button.textContent = "复制失败";
+        }
+      });
+    });
+  </script>
+</body>
+</html>
